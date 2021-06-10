@@ -23,5 +23,40 @@ public class LibraryTest {
         library = new Library(inventory);
     }
 
-    // Add tests here...
+    @Test
+    public void checkInventoryDecreaseByOne() throws BookNotAvailableException  {
+
+	// GIVEN
+	inventory.add(new Book("book1"));
+	inventory.add(new Book("book1"));
+
+	// WHEN	
+	library.checkOut("studentID", "book1");
+
+	// THEN
+	assertEquals(1, inventory.countCopies("book1"));
+    }
+
+    @Test
+    public void checkEmptyInventory()  throws BookNotAvailableException {
+    	// GIVEN
+	inventory.add(new Book("book1"));
+	inventory.add(new Book("book1"));
+	
+	library.checkOut("studentID", "book1");
+	library.checkOut("studentID", "book1");
+
+	// WHEN
+	final BookNotAvailableException exception = assertThrows(
+			BookNotAvailableException.class,
+			() -> {
+				library.checkOut("student", "book1");
+			}
+			);
+
+	// THEN
+	assertTrue(exception.getMessage().matches("Book book1 is not available"));
+	
+
+    }
 }
