@@ -45,6 +45,16 @@ public class SolverTest {
     }
 
     @Test
+    public void solve_multiplication() {
+        assertEquals(solverService.solve("2*3"), 6);
+    }
+    
+    @Test
+    public void solve_multiplication_overprioritize_substraction() {
+        assertEquals(solverService.solve("2*5-2"), 8);
+    }
+
+    @Test
     public void solve_error() {
         assertThrows(WebApplicationException.class, () -> solverService.solve("5+"));
     }
